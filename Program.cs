@@ -2,12 +2,13 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.Components.Authorization;
 using UsedPhonesWebShop.Services;
-using UsedPhonesWebShop.Components; // Ensure this line is present
+using UsedPhonesWebShop.Components;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<UsedPhonesWebShop.Components.App>("#app");
+builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
+// Update BaseAddress to match one of the frontend URLs (e.g., https://localhost:7167/)
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7167/") });
 
 builder.Services.AddOptions();

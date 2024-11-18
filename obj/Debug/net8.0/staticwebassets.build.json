@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9bRj6TyyBZImknw84tJQSSCYoQ/a6S6kYRc9ZQ+GUNg=",
+  "Hash": "23EYk8E1gKYmj52Q7juycH2K/DIluQk9b1EwiULXb4g=",
   "Source": "UsedPhonesWebShop",
   "BasePath": "_content/UsedPhonesWebShop",
   "Mode": "Default",
@@ -148,6 +148,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.png"
+    },
+    {
+      "Identity": "C:\\Users\\juuso\\UsedPhonesWebShop\\UsedPhonesWebShop\\wwwroot\\index.html",
+      "SourceId": "UsedPhonesWebShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\juuso\\UsedPhonesWebShop\\UsedPhonesWebShop\\wwwroot\\",
+      "BasePath": "_content/UsedPhonesWebShop",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
     }
   ]
 }
