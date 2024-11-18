@@ -26,8 +26,11 @@ else
         <thead>
             <tr>
                 <th>Offer ID</th>
-                <th>Phone</th>
-                <th>Price</th>
+                <th>Phone Brand</th>
+                <th>Phone Model</th>
+                <th>Original Price</th>
+                <th>Phone Age (months)</th>
+                <th>Overall Condition (%)</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -36,8 +39,11 @@ else
             {
                 <tr>
                     <td>@offer.Id</td>
-                    <td>@offer.Phone.Brand @offer.Phone.Model</td>
-                    <td>@offer.Price.ToString("C")</td>
+                    <td>@offer.PhoneBrand</td>
+                    <td>@offer.PhoneModel</td>
+                    <td>@offer.OriginalPrice.ToString("C")</td>
+                    <td>@offer.PhoneAge</td>
+                    <td>@offer.OverallCondition%</td>
                     <td>
                         <button class="btn btn-primary btn-sm" @onclick="() => ViewOfferDetails(offer.Id)">View</button>
                     </td>
