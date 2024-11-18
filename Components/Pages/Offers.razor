@@ -1,0 +1,62 @@
+@page "/offers"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using UsedPhonesWebShop.Services
+@using UsedPhonesWebShop.Shared.Models
+@inject IAuthService AuthService
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+@inject HttpClient Http
+
+@attribute [Authorize(Roles = "Customer,Admin")]
+
+<h3>Offers</h3>
+
+@if (offers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!offers.Any())
+{
+    <p>No offers available.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Offer ID</th>
+                <th>Phone</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var offer in offers)
+            {
+                <tr>
+                    <td>@offer.Id</td>
+                    <td>@offer.Phone.Brand @offer.Phone.Model</td>
+                    <td>@offer.Price.ToString("C")</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" @onclick="() => ViewOfferDetails(offer.Id)">View</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<OfferModel>? offers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        offers = await Http.GetFromJsonAsync<List<OfferModel>>("api/Offers");
+    }
+
+    private void ViewOfferDetails(int offerId)
+    {
+        Navigation.NavigateTo($"/offer-details/{offerId}");
+    }
+}

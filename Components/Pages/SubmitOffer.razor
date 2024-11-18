@@ -1,0 +1,74 @@
+@page "/submit-offer"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using UsedPhonesWebShop.Services
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@using UsedPhonesWebShop.Shared.DTOs
+@attribute [Authorize(Roles = "Customer")]
+
+<h3>Submit Offer to Sell Your Phone</h3>
+
+<EditForm Model="submitOfferModel" OnValidSubmit="HandleSubmitOffer">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>Phone Brand</label>
+        <InputText @bind-Value="submitOfferModel.PhoneBrand" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Phone Model</label>
+        <InputText @bind-Value="submitOfferModel.PhoneModel" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Original Price</label>
+        <InputNumber @bind-Value="submitOfferModel.OriginalPrice" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Phone Age (months)</label>
+        <InputNumber @bind-Value="submitOfferModel.PhoneAge" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Overall Condition (%)</label>
+        <InputNumber @bind-Value="submitOfferModel.OverallCondition" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Battery Life (%)</label>
+        <InputNumber @bind-Value="submitOfferModel.BatteryLife" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Screen Condition (%)</label>
+        <InputNumber @bind-Value="submitOfferModel.ScreenCondition" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Resell Value (optional)</label>
+        <InputNumber @bind-Value="submitOfferModel.ResellValue" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Offer</button>
+</EditForm>
+
+@code {
+    private SubmitOfferDto submitOfferModel = new SubmitOfferDto();
+
+    private async Task HandleSubmitOffer()
+    {
+        var response = await Http.PostAsJsonAsync("api/Offers", submitOfferModel);
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/offers");
+        }
+        else
+        {
+            // Show error message
+        }
+    }
+}

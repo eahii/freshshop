@@ -1,0 +1,66 @@
+@page "/phones"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using UsedPhonesWebShop.Services
+@inject HttpClient Http
+@using UsedPhonesWebShop.Shared.Models
+@attribute [Authorize(Roles = "Customer,Admin")]
+@inject NavigationManager Navigation
+
+<h3>Phones</h3>
+
+@if (phones == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Condition</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var phone in phones)
+            {
+                <tr>
+                    <td>@phone.Brand</td>
+                    <td>@phone.Model</td>
+                    <td>@phone.Condition</td>
+                    <td>@phone.Price.ToString("C")</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" @onclick="() => AddToCart(phone.Id)">Add to Cart</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<PhoneModel> phones;
+
+    protected override async Task OnInitializedAsync()
+    {
+        phones = await Http.GetFromJsonAsync<List<PhoneModel>>("api/Phones");
+    }
+
+    private async Task AddToCart(int phoneId)
+    {
+        var response = await Http.PostAsJsonAsync<int>("api/Carts/Add", phoneId);
+        if (response.IsSuccessStatusCode)
+        {
+            // Optionally, refresh cart or notify the user
+            Navigation.NavigateTo("/cart");
+        }
+        else
+        {
+            // Handle error
+        }
+    }
+}

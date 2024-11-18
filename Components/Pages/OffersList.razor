@@ -1,0 +1,79 @@
+@using UsedPhonesWebShop.Shared.Models
+@inject HttpClient Http
+
+<h4>Pending Offers</h4>
+
+@if (offers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!offers.Any())
+{
+    <p>No pending offers.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Phone Brand</th>
+                <th>Phone Model</th>
+                <th>Original Price</th>
+                <th>Phone Age</th>
+                <th>Overall Condition</th>
+                <th>Battery Life</th>
+                <th>Screen Condition</th>
+                <th>Resell Value</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var offer in offers)
+            {
+                <tr>
+                    <td>@offer.User.FirstName @offer.User.LastName</td>
+                    <td>@offer.PhoneBrand</td>
+                    <td>@offer.PhoneModel</td>
+                    <td>@offer.OriginalPrice.ToString("C")</td>
+                    <td>@offer.PhoneAge months</td>
+                    <td>@offer.OverallCondition%</td>
+                    <td>@offer.BatteryLife%</td>
+                    <td>@offer.ScreenCondition%</td>
+                    <td>@(offer.ResellValue.HasValue ? offer.ResellValue.Value.ToString("C") : "N/A")</td>
+                    <td>
+                        <button class="btn btn-success btn-sm" @onclick="() => AcceptOffer(offer.Id)">Accept</button>
+                        <button class="btn btn-danger btn-sm" @onclick="() => DeclineOffer(offer.Id)">Decline</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<OfferModel> offers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        offers = await Http.GetFromJsonAsync<List<OfferModel>>("api/Offers");
+    }
+
+    private async Task AcceptOffer(int id)
+    {
+        var response = await Http.PutAsync($"api/Offers/{id}?status=Accepted", null);
+        if (response.IsSuccessStatusCode)
+        {
+            offers = await Http.GetFromJsonAsync<List<OfferModel>>("api/Offers");
+        }
+    }
+
+    private async Task DeclineOffer(int id)
+    {
+        var response = await Http.PutAsync($"api/Offers/{id}?status=Declined", null);
+        if (response.IsSuccessStatusCode)
+        {
+            offers = await Http.GetFromJsonAsync<List<OfferModel>>("api/Offers");
+        }
+    }
+}

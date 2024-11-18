@@ -1,0 +1,6 @@
+C:\Users\juuso\UsedPhonesWebShop\UsedPhonesWebShop\obj\Debug\net8.0\UsedPhonesWebShop.csproj.AssemblyReference.cache
+C:\Users\juuso\UsedPhonesWebShop\UsedPhonesWebShop\obj\Debug\net8.0\UsedPhonesWebShop.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\juuso\UsedPhonesWebShop\UsedPhonesWebShop\obj\Debug\net8.0\UsedPhonesWebShop.AssemblyInfoInputs.cache
+C:\Users\juuso\UsedPhonesWebShop\UsedPhonesWebShop\obj\Debug\net8.0\UsedPhonesWebShop.AssemblyInfo.cs
+C:\Users\juuso\UsedPhonesWebShop\UsedPhonesWebShop\obj\Debug\net8.0\UsedPhonesWebShop.csproj.CoreCompileInputs.cache
+C:\Users\juuso\UsedPhonesWebShop\UsedPhonesWebShop\obj\Debug\net8.0\UsedPhonesWebShop.MvcApplicationPartsAssemblyInfo.cache

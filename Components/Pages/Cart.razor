@@ -1,0 +1,77 @@
+@page "/cart"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using UsedPhonesWebShop.Services
+@inject HttpClient Http
+@using UsedPhonesWebShop.Shared.Models
+@using Microsoft.AspNetCore.Components.Authorization
+@attribute [Authorize(Roles = "Customer")]
+@inject NavigationManager NavigationManager
+
+<h3>Your Shopping Cart</h3>
+
+@if (cart == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!cart.CartItems.Any())
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Phone</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in cart.CartItems)
+            {
+                <tr>
+                    <td>@item.Phone.Brand @item.Phone.Model</td>
+                    <td>@item.Phone.Price.ToString("C")</td>
+                    <td>@item.Quantity</td>
+                    <td>@(item.Phone.Price * item.Quantity).ToString("C")</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" @onclick="() => RemoveFromCart(item.PhoneId)">Remove</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4>Total: @total.ToString("C")</h4>
+
+    <button class="btn btn-primary" @onclick="Checkout">Checkout</button>
+}
+
+@code {
+    private ShoppingCartModel cart;
+    private decimal total => cart.CartItems.Sum(ci => ci.Phone.Price * ci.Quantity);
+
+    protected override async Task OnInitializedAsync()
+    {
+        cart = await Http.GetFromJsonAsync<ShoppingCartModel>("api/Carts");
+    }
+
+    private async Task RemoveFromCart(int phoneId)
+    {
+        await Http.DeleteAsync($"api/Carts/Remove?phoneId={phoneId}");
+        cart = await Http.GetFromJsonAsync<ShoppingCartModel>("api/Carts");
+    }
+
+    private async Task Checkout()
+    {
+        var response = await Http.PostAsync("api/Carts/Checkout", null);
+        if (response.IsSuccessStatusCode)
+        {
+            // Redirect to checkout page or show success message
+        }
+    }
+}

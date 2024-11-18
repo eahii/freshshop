@@ -1,0 +1,38 @@
+@page "/checkout"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using UsedPhonesWebShop.Services
+@inject HttpClient Http
+@using Microsoft.AspNetCore.Components.Authorization
+@attribute [Authorize(Roles = "Customer")]
+
+<h3>Checkout</h3>
+
+@if (isSuccess)
+{
+    <div class="alert alert-success" role="alert">
+        Your order has been placed successfully!
+    </div>
+}
+else
+{
+    <p>This is a placeholder for the checkout process.</p>
+    <button class="btn btn-success" @onclick="FinalizeCheckout">Finalize Order</button>
+}
+
+@code {
+    private bool isSuccess = false;
+
+    private async Task FinalizeCheckout()
+    {
+        var response = await Http.PostAsync("api/Orders/Create", null);
+        if (response.IsSuccessStatusCode)
+        {
+            isSuccess = true;
+        }
+        else
+        {
+            // Show error message
+        }
+    }
+}

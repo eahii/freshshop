@@ -1,0 +1,63 @@
+@page "/register"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using UsedPhonesWebShop.Services
+@inject IAuthService AuthService
+@using UsedPhonesWebShop.Shared.DTOs
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>Register</h3>
+
+<EditForm Model="registrationModel" OnValidSubmit="HandleRegister">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>Email</label>
+        <InputText @bind-Value="registrationModel.Email" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Password</label>
+        <InputText @bind-Value="registrationModel.Password" type="password" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>First Name</label>
+        <InputText @bind-Value="registrationModel.FirstName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Last Name</label>
+        <InputText @bind-Value="registrationModel.LastName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Address</label>
+        <InputText @bind-Value="registrationModel.Address" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Phone Number</label>
+        <InputText @bind-Value="registrationModel.PhoneNumber" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</EditForm>
+
+@code {
+    private UserRegistrationDto registrationModel = new UserRegistrationDto();
+
+    private async Task HandleRegister()
+    {
+        var success = await AuthService.Register(registrationModel);
+        if (success)
+        {
+            // Redirect to login page or show success message
+        }
+        else
+        {
+            // Show error message
+        }
+    }
+}

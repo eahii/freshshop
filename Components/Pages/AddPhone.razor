@@ -1,0 +1,69 @@
+@page "/add-phone"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using UsedPhonesWebShop.Services
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@using UsedPhonesWebShop.Shared.DTOs
+@attribute [Authorize(Roles = "Admin")]
+
+<h3>Add New Phone</h3>
+
+<EditForm Model="addPhoneModel" OnValidSubmit="HandleAddPhone">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>Brand</label>
+        <InputText @bind-Value="addPhoneModel.Brand" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Model</label>
+        <InputText @bind-Value="addPhoneModel.Model" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Price</label>
+        <InputNumber @bind-Value="addPhoneModel.Price" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Description</label>
+        <InputTextArea @bind-Value="addPhoneModel.Description" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Condition</label>
+        <InputSelect @bind-Value="addPhoneModel.Condition" class="form-control">
+            <option value="">Select Condition</option>
+            <option value="Excellent">Excellent</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+        </InputSelect>
+    </div>
+
+    <div class="mb-3">
+        <label>Stock Quantity</label>
+        <InputNumber @bind-Value="addPhoneModel.StockQuantity" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Add Phone</button>
+</EditForm>
+
+@code {
+    private AddPhoneDto addPhoneModel = new AddPhoneDto();
+
+    private async Task HandleAddPhone()
+    {
+        var response = await Http.PostAsJsonAsync("api/Phones", addPhoneModel);
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/phones");
+        }
+        else
+        {
+            // Show error message
+        }
+    }
+}
